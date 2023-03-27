@@ -1,0 +1,14 @@
+## Challenges to the development of Quantum Computing (and Quantum Cryptography)
+
+## Quantum Error correction
+- https://en.wikipedia.org/wiki/Quantum_error_correction[Quantum Error Correction Wikpedia page]
+- https://www.youtube.com/watch?v=6qD9XElTpCE[Shor discussing Quantum Errors and Correction at 18:40]
+- https://www2.physics.ox.ac.uk/sites/default/files/ErrorCorrectionSteane06.pdf[QEC: Tutorial paper by Steane]
+- https://quantumai.google/qecmilestone[Google's reality check video, and Roadmap (we still don't have a long-lived Qubit)] 
+- Hypsercalers addressing simulations of noise in a Quantum Computer
+* https://cloud.google.com/architecture/quantum-simulation-on-google-cloud-with-cirq-qsim[Google GCP]
+* https://aws.amazon.com/blogs/quantum-computing/noise-in-quantum-computing/[Amazon AWS]
+* https://learn.microsoft.com/en-us/azure/quantum/machines/noise-simulator[Microsoft Azure]
+
+
+

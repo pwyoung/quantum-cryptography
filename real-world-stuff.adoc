@@ -1,0 +1,128 @@
+# Real world stuff
+
+## Simple examples of Quantum Mechanics
+- Three polarizer "paradox"
+* https://www.youtube.com/shorts/LHGuHlB849g[Fun video]
+* https://www.youtube.com/watch?v=r1sZY826Qys[Some Explanation]
+* My summary of what is happening
+** A polarizer always emits light at a fixed polarization angle
+** If light comes in at 45 degrees to the polarization angle then 50% of the light will be emitted
+** The light is essentially "rotated" to the new polarization angle
+** This is possible with 3 lenses, each at 45 degrees, each reducing the emitted light by 50%
+
+## Theory as it relates to Quantum Key Distribution (QKD)
+- The utility of QKD, by itself (as opposed to PQC),has been https://en.wikipedia.org/wiki/Quantum_key_distribution#:~:text=Quantum%20key%20distribution%20requires%20special,physically%20manage%20free%2Dspace%20transmitters[challenged]
+* The challenges above are summarized here:
+** The authentication problem (who are you talking to) is not solved. 
+*** You might be talking to an adversary.
+** Denial of service ("DOS") attacks are possible. 
+*** If an eaves-dropper listens to all transmissions, then none can be used to communicate the key.
+** Special dedicated equipment is needed
+*** E.g. fiber connections or p2p transmitters
+** Man-in-the-middle (MITM) attacks are possible at relay points
+*** For practical reasons, these are often needed.
+** The above challenges are (mostly) listed in the Ericsson article below.
+
+## Theory as it relates to Quantum Computing
+- The above "rotation" of the polarized light is an example of what might be used to implement a Quantum Computer
+- The rotation apparatus in such a computer would be programmable, and called a https://en.wikipedia.org/wiki/Quantum_logic_gate["Quantum Logic Gate"]
+- One way to think of the general operations Gates can perform is to think of the polarization as a point on a sphere (since it is actually 2-dimensional), and to think of the gate operations as "rotations" of the (https://en.wikipedia.org/wiki/Bloch_sphere[Bloch]) sphere.
+
+## Hardware
+- An uncompromising review of the state of Quantum Cryptography by Ericsson is https://www.ericsson.com/en/blog/2023/2/quantum-resistant-algorithms-mobile-networks#:~:text=A%20CRQC%20is%20a%20quantum,robust%20than%20current%20quantum%20computers[here]
+* Actual https://arxiv.org/pdf/2112.00399.pdf[PDF from Ericsson]
+
+## Software
+- Post-Quantum computing encryption Libraries
+* In https://openquantumsafe.org/liboqs/[C]
+* In https://en.wikipedia.org/wiki/Bouncy_Castle_(cryptography)[Java and C#]
+- General Quantum Computing Languages
+* https://en.wikipedia.org/wiki/Qiskit[IBM's Qiskit SDK]
+* https://en.wikipedia.org/wiki/Q_Sharp[Microsoft's Q# language]
+* https://en.wikipedia.org/wiki/Quantum_Computation_Language[QCL, a C-like language]
+
+
+## Services
+- General Quantum Computing
+* https://www.ibm.com/quantum[At IBM]
+** https://www.ibm.com/quantum/systems[Quantum System One]
+* https://aws.amazon.com/braket/[At AWS]
+** AWS supports https://aws.amazon.com/braket/getting-started/[Qiskit, PennyLane, and StrawberryFields]
+** AWS supports https://github.com/aws/amazon-braket-default-simulator-python[Local simulation]
+* https://azure.microsoft.com/en-us/products/quantum[At Azure]
+** Azure supports Q#, Qiskit, and Cirq.
+* https://quantumai.google/cirq/google/concepts[At Google]
+** GCP supports Cirq
+* Post-Quantum Proxying of data (should use PQC PKI to send symmetric keys in order to create secure point-to-point encryption)
+** To check the status of NIST evaluation (for FIPS-3 compliance) of certain tools, look at https://csrc.nist.gov/Projects/cryptographic-module-validation-program/modules-in-process/Modules-In-Process-List[this]
+** e.g. https://www.qusecure.com/quprotect/
+
+
+
+## What can we do now
+
+### Longer key lengths
+- Use longer key-length RSA keys (2048 minimum, but 3072 and 4096 bit versions, while slower, are supported)
+
+### Check current encryption
+- You are probably (implicitly or otherwise) using AES-256 symmetric key encryption for enrypting data at rest. 
+- The key used to encrypt data is the "Data Encryption Key (DEK)". 
+- The DEK is usually stored alongside the data, encrypted with a "Key-Encrypting-Key (KEK)" which is usually uses PKI (asymmetric keys)
+- At any time, there are often two (or more) KEKs, so to support "key rotation", so that old keys can be retired and replaced by new keys, without interrupting service or decrypting/re-encrypting data
+- Make sure you trust your system to not have security flaws (such skeleton KEKs) that would allow admins to read your data. This ultimately depends on audits of the code and (encrypted) data storage system.
+
+### Implement general best-practices for security
+- Look at isolating systems that don't need to be connected and implementing https://csrc.nist.gov/publications/detail/sp/800-207/final[Zero Trust] since https://www.bleepingcomputer.com/news/security/kroger-data-breach-exposes-pharmacy-and-employee-data/[mundane, non-quantum attacks] will continue to threaten organizations.
+
+### Protect DNS
+- DNS is critical and its comprimise can help compromise other systems
+- Make sure your DNS is also secured using encryption (DNSSEC) and be prepared to upgrade it too at some point.
+
+### Use Elliptic-Curve Cryptography
+- For speed, when possible, and when you trust that the (newer more complex) code implementation is secure, use Elliptical Curve Cryptography (ECC)
+* Note that not everyone supports ECC as RSA is older, more reviewed, and more popular 
+* ECDSA with a 256 bit key is believed to be equivalent to RSA with a 3072-bit key https://www.rfc-editor.org/rfc/rfc6605[per this RFC]
+- Examples of support for Elliptic Curve Cryptography
+* FIPS-compliant keychain setup on a https://www.cisco.com/c/en/us/td/docs/iosxr/ncs5500/security/66x/b-system-security-cg-ncs5500-66x/m-configuring-fips-mode-ncs5500.pdf[Cisco router]
+* Argument for https://blog.apnic.net/2021/11/10/rsa-vs-ecdsa-for-dnssec/[Elliptic Curve Cryptography - ECDSA-p128] for DNSSEC
+* ECDSA with 512 bit keys are available too and maybe useful when supported (e.g. for SSH keys)
+
+### Track Regulatory Requirements, Algorithm Development (testing/performance) and (de-facto) adoption, and Quantum Computing development
+- NIST is not the only word in PQC
+* OpenSSL/OpenSSH adopted some algorithms which may be quantum resistant before NIST finalized its algorithms, and are not on the current NIST-approved PQC list of algorithms.
+
+- Algorithm development (code libraries, attacks on algorithms, exploration of new algorithms and variations on them) continues 
+* 3 of the 4 Quantum algorithms NIST https://csrc.nist.gov/Projects/post-quantum-cryptography/selected-algorithms-2022[approved] depend on https://en.wikipedia.org/wiki/NTRU[NTRU (Lattice-math)]
+** https://sphincs.org/[Sphincs+] is the exception, added in case we need another algorithm, but it is for hashing, not for PKI.
+** So, the https://en.wikipedia.org/wiki/Key_encapsulation_mechanism[KEMs, e.g. Kyber] depend on NTRU/Lattice math.
+** Research to test for vulnerabilities in NTRU are also ongoing
+*** All experts seem to emphasize the inherent weakness, and https://ntruprime.cr.yp.to/warnings.html[practical warnings] of any math-based encryption
+*** Note, there is work on true https://en.wikipedia.org/wiki/Quantum_key_distribution[QKD] systems that rely on actual (Quantum) Physical states. These seem to have inherent distance limitations, which require the use of (ideally quantum computer) repeaters.
+*** An example of attacks (simplifications of the underlying math "problem" being leveraged) is https://www.sciencedirect.com/science/article/abs/pii/S0020019022001107[here]
+*** We can expect research to continue https://research.nccgroup.com/2022/07/13/nist-selects-post-quantum-algorithms-for-standardization/[e.g. on BATS] or other algorithms developed even after NIST's contest ended
+- PQC algorithms can be slower than RSA/ECDSA and so people are working on speeding them up.
+* See a discussion on that https://crypto.stackexchange.com/questions/99566/are-pki-pqc-algorithms-slower-than-their-nonpq-counterparts-e-g-ntru-vs-rsa[here]
+* Tools to benchmark crypto algorithms exist, such as https://bench.cr.yp.to/supercop.html[this]
+- Google has a public timeline for developing a stable Quantum Computer 
+* It expects the computer to be available by 2029
+* When it will come about, and whether it will have enough qubits to crack certain keys is another question.
+
+
+## Regulations
+- DHS 
+* Expects transition to PQC to happen as soon as standards are https://www.dhs.gov/publication/preparing-post-quantum-cryptography-infographic[published in 2024]
+* Encourages those working on critical infrastructure to immediately "shift mindset" (planning at a minimum) for PQC 
+- Congress 
+* Has made some laws requiring the fed to make detailed plans to move to PQC https://www.congress.gov/bill/117th-congress/house-bill/7535/text[by a vote of 420-3]
+- The federal budget 
+* https://www.nextgov.com/policy/2022/03/biden-budget-request-boosts-it-spending-significantly/363670/[allocates $187M] to finalize the PQC standards, with additional money included to actually make the changes needed.
+- GDPR
+* Requires https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A02016R0679-20160504["appropriate technical and organizational measures”]
+* In practice, this means the usual: least-privilege access and encrypting data both at-rest and in-transit. This is complex, with Clouds providing tools to https://docs.aws.amazon.com/audit-manager/latest/userguide/GDPR.html[help address] the things that need to be locked down.
+- HIPAA and PCI will have similar expectations of encryption.
+* Although, it seems that since July 2022, the basic guidance to https://www.hhs.gov/sites/default/files/quantum-cryptography-and-health-sector.pdf["take stock, have a plan, and get ready"] has been repeated, probably because the NIST standards, expected in 2024 are still pending. So, don't wait for regulations, since making a change will likely be complex and take a long time to implement properly.
+- NSA
+* Has the most detailed guidance and timelines https://media.defense.gov/2022/Sep/07/2003071836/-1/-1/0/CSI_CNSA_2.0_FAQ_.PDF[here]
+** This shows the transition to PQC (CNSA 2.0) should be complete by 2030 with transition starting in 2025.
+
+

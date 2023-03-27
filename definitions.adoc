@@ -1,0 +1,7 @@
+# Definitions
+
+## Terms 
+- https://en.wikipedia.org/wiki/Quantum_cryptography[Quantum Computing (QC)]
+- https://en.wikipedia.org/wiki/Quantum_key_distribution[Quantum key distribution (QXD)]
+- https://www.ericsson.com/en/blog/2023/2/quantum-resistant-algorithms-mobile-networks#:~:text=A%20CRQC%20is%20a%20quantum,robust%20than%20current%20quantum%20computers[Cryptographically relevant quantum computer (CRQC)]
+

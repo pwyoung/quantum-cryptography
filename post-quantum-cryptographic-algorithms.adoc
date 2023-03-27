@@ -1,0 +1,24 @@
+## Efforts for dealing with a "Post-Quantum" world
+https://en.wikipedia.org/wiki/Post-quantum_cryptography[Post-Quantum Cryptography] ("PQC") algorithms are those expected to be resistant to attacks by Quantum Compters
+
+## What are the PQC Algorithms and why do we need them?
+- https://www.youtube.com/watch?v=-UrdExQW0cs[Excellent video explaining the pre and post quantum algorithms]
+
+## How likely is it that we will have to face Quantum Computers attacking our encrypted data?
+- Consensus seems to be that Quantum Computers able to crack traditional encryption will exist in 10-20 years.
+- https://arxiv.org/abs/2212.12372[Paper claiming that today's 2048-bit RSA encryption might be cracked on a machine with "372 physical qubits and a depth of thousands"]
+
+## Warning: some algorithms *Previously* thought to be "Quantum Resistant" are not
+- https://en.wikipedia.org/wiki/Supersingular_isogeny_key_exchange[This algorithm] was thought to be resistant to attacks by a Quantum computer, in the future, but it was found to be
+ https://arstechnica.com/information-technology/2022/08/sike-once-a-post-quantum-encryption-contender-is-koed-in-nist-smackdown/[vulnerable] to attack by a common (classical, single-core) desktop computer today. https://csrc.nist.gov/csrc/media/Projects/post-quantum-cryptography/documents/round-4/submissions/SIKE-spec.pdf[The algorithm] made it to the fourth round of NIST's official process to develop PQC Algorithms
+* Details
+** https://eprint.iacr.org/2022/975[Paper on the attack on SIDH]
+** https://develop.secure.software/post-quantum-algo-sike-dead-did-math-geeks-find-key-encap-back-door[Some debate] on whether modified versions of this basic algorithm can be made secure
+
+## Current state of NIST-certified PQC algorithms
+- There are other algorithms that have not survived the NIST evaluation process. That is the point of the process.
+- Details of the current NIST evaluation of potential PQC algorithms can be found https://csrc.nist.gov/Projects/Post-Quantum-Cryptography[here]
+
+## CRYSTALS
+- L is for Lattice, the basis of 3 of the 4 PQC algos, with "Sphincs+"" being the exception
+- https://en.wikipedia.org/wiki/Kyber[Crytstals-Kyber wiki page]

@@ -1,0 +1,24 @@
+
+## *CURRENT* Algorithm Graveyard
+
+### FIPS: prohibited
+* https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf[Triple DES/TDEA]
+** "After December 31, 2023, three-key TDEA is disallowed for encryption unless
+specifically allowed by other NIST guidance. "
+* https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf[SKIPJACK]
+** "The use of SKIPJACK for encryption is disallowed. "
+* https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf[]
+** "The use of AES-128, AES-192, AES-256 is acceptable for encryption and decryption
+using the *approved modes* in the SP 800-38 series of publications."
+*** Proposed update to https://csrc.nist.gov/news/2022/proposal-to-revise-sp-800-38a[SP-800-38]
+
+### TLS 1.3: prohibited (dropped from TLS1.2)
+* https://kinsta.com/blog/tls-1-3/[dropped algos]
+** SHA-1
+** RC4
+** DES
+** 3DES
+** AES-CBC
+** MD5
+** Arbitrary Diffie-Hellman groups — CVE-2016-0701
+** EXPORT-strength ciphers – Responsible for FREAK and LogJam

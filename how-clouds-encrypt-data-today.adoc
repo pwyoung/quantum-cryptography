@@ -1,0 +1,22 @@
+
+## Concept: Cloud Encryption (Envelope Encryption or Hybrid Encryption)
+
+### How Clouds Manage Encryption Today
+* Cloud Providers encrypt data using a scheme called "Envelope Encryption"
+* Data is encrypted each time it is written with a key (the Data Encryption Key, or "DEK") that is itself encrypted and stored near the encrypted data.
+* Key-Encrypting-Keys ("KEKs") are kept in a tamper-resistent dedicated hardware box "HSM" and accessed through a Key Management Services ("KMS")
+
+
+### Background: Why is it done this way?
+* The KEKs can easily be changed or "rotated" without decrypting and re-encrypting the encrypted data.
+* Asymmetric keys can be regenerated/redistributed safely to support "key rotation". This allows users to import and otherwise manage their own keys.
+* The DEKs are Symmetric keys which are good at quickly and cheaply (in terms of computation) encrypting and decrypting data. 
+* Symmetric keys are not used everywhere because there is no way (in classical computing, over an insecure channel) to distribute them. So they are encrypted with another key when they are stored.
+* Sufficiently large Symmetric Keys are believed to be "Quantum Resistant". See https://en.wikipedia.org/wiki/Post-quantum_cryptography[this article]
+
+### Information on the above links: 
+* https://cloud.google.com/kms/docs/envelope-encryption[Envelope Encryption]
+* https://docs.aws.amazon.com/kms/latest/developerguide/hsm-key-store-concepts.html[HSM]
+* https://docs.aws.amazon.com/kms/latest/developerguide/overview.html[KMS]
+
+

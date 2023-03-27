@@ -1,0 +1,153 @@
+# Challenges that exist for businesses today, despite the state of Quantum Computing
+
+## Store Now to Decrypt Later (SNDL)
+- Threat Actors (nation-states, criminal organizations, etc.) are stealing encrypted data today in order to decrypt it in the future
+- Experts say that could happen within 10-20 years
+- Some people think algorithms, like RSA-2048-bit encryption could be cracked much sooner.
+- https://siliconangle.com/2022/09/20/half-organizations-concerned-quantum-harvest-now-decrypt-later-attacks/[Many orgs are waiting for C-level mandates, a major security incident, and are not preparing yet...]
+
+## Most researchers believe Quantum Computers will be able to crack current common encryption by the late 2030s.
+- https://www.ibm.com/topics/quantum-safe-cryptography[IBM page discussing timeline]
+- https://www.youtube.com/watch?v=6qD9XElTpCE[Shor's Algorithm in his own words, with history]
+* https://www.youtube.com/watch?v=6qD9XElTpCE[Quantum error correction (at 22:20)]
+
+## Current state of cryptographic algorithms
+* Algorithms used by https://www.wolfssl.com/wolfssl-support-178-dal/[one security-conscious vendor]
+* Advanced Encryption Standard (AES)
+** Used as a stream/block cipher since it is cheap and easy to encrypt a block of data
+** Support for AES exists in most major computer chips
+** Not affected by known Quantum attacks such as Shor's algorithm, because
+** it is similar mathematically to one-time pad (XOR) algorithm
+** AES is often used with https://en.wikipedia.org/wiki/Galois/Counter_Mode[GCM]
+** Note on why (naively) writing your own crypto libaries is a https://security.stackexchange.com/questions/184305/why-would-i-ever-use-aes-256-cbc-if-aes-256-gcm-is-more-secure[bad idea]
+* Triple DES.
+** Is technically FIPS 140-2 compliant, but https://www.reddit.com/r/NISTControls/comments/jie992/is_3des_considered_fips_1402_compliant/[not recommended] or allowed in TLSv1.3
+* Blowfish.
+** https://security.stackexchange.com/questions/204374/is-blowfish-validated-against-any-standards[Not listed] in FIPS-140-2 standard https://csrc.nist.gov/projects/cryptographic-module-validation-program/validated-modules/search[approved algorithms] 
+* Rivest-Shamir-Adleman (RSA)
+** Is popular, and used by default in TLSv1.3, but is known to be vulnerable to PQC
+
+
+## NIST POST-QUANTUM STANDARD ALGORITHMS (as of 7/5/22)
+* https://csrc.nist.gov/Projects/post-quantum-cryptography/selected-algorithms-2022[NIST Standardized Algorithms page]
+* Take-aways
+** Public-key Encryption and Key-establishment Algorithms
+*** https://pq-crystals.org/kyber/[CRYSTALS-KYBER]
+** Digital Signature Algorithms
+*** CRYSTALS-DILITHIUM
+*** FALCON
+** SPHINCS+
+
+
+## Some folks seem to like some other PQ algorithms (regardless of NIST) for a few reasons
+
+
+## Regulations
+
+### FIPS
+- As of 7/7/22, NIST announced 4th-round algorithms (which it is nearly ready to require)
+- https://csrc.nist.gov/Projects/cryptographic-module-validation-program/fips-140-3-standards[FIPS-3 explained]
+- https://www.nist.gov/news-events/news/2022/07/nist-announces-first-four-quantum-resistant-cryptographic-algorithms[summary]
+- https://csrc.nist.gov/News/2022/pqc-candidates-to-be-standardized-and-round-4[details]
+- https://csrc.nist.gov/Projects/post-quantum-cryptography/post-quantum-cryptography-standardization[NIST landing page on Post-Quantum Cryptography]
+### FIPS-3 now relies on ISO19790 to specify algos
+- https://www.wolfssl.com/wolfcrypt-fips-140-3-2/[FIPS 140-3 will now point back to ISO 19790 for security requirements]
+
+
+### FIPS-3 modules
+- https://csrc.nist.gov/Projects/cryptographic-module-validation-program/modules-in-process/Modules-In-Process-List[Modules tested for FIPS-140-2/3 compliance]
+* AWS has a number of modules, such as its Key Management Service, under test for FIPS-3 compliance.
+
+## Standards
+
+### TLS 1.3
+- https://datatracker.ietf.org/doc/html/draft-ietf-tls-hybrid-design-03[TLS 1.3 standard]
+- 
+
+## Vendor Support for possible PQC solutions
+
+### Solutions come in a few types
+- Use Physical Quantum solutions (e.g. BB84) to distribute keys
+* The problems with this are many: limited range, only distributes keys, repeaters are vulberable to conventional attacks, etc.
+- Implement Post-Quantum Algorithms
+* The problem is that these are not finalized and rely on the hope that math algorithms in the future will not crack them
+- *Use Symmetric keys of long length*
+* This is the strongest encryption possible, but it recreates the problem PKI was created to solve - how to distribute keys
+* This seems to be the way most people are going (see below)
+
+### Hardware Vendor support
+- PQC tech specialist components
+* https://arqit.uk/ [Arqit post-quantum encryption toolset is embedded in Dell, and Fortinet]
+* https://post-quantum.com/index.html [Post-Quantum VPN]
+- Dell Hardware (with Arqit)
+* https://www.capacitymedia.com/article/2b0obuf3agpr6p2b7qxog/news/dell-turns-to-arqit-to-block-harvest-now-decrypt-later-attacks[Dell with Arqit]
+- Fortinet Next-Gen Firewalls (with Arqit)
+* https://assets.ctfassets.net/esxqpo4zj3x1/f6it7SXliZg4fyrCF0uGQ/7a5feac3de624bb0b2a7844d1e16f03e/sb-fortinet-and-arqit-vpn-integration_au96ct.pdf[Fortinet and Arqit]
+
+#### QKD (via physical quantum properties as opposed to PQC) has challenges
+* https://www.etsi.org/deliver/etsi_gs/QKD/001_099/014/01.01.01_60/gs_qkd014v010101p.pdf[QKD standards paper, p6]
+** " It is beyond the scope of the present document to describe how a QKD
+network generates key material shared between distant nodes."
+* This is about the fact that relays are needed for long transmissions and those might be vulnerable to conventional attacks.
+* https://en.wikipedia.org/wiki/Quantum_key_distribution[QKD wikipedia]
+* https://en.wikipedia.org/wiki/Quantum_cryptography#cite_note-auto-15[QC wiki page discusses theories related to repeaters]
+* https://www.globenewswire.com/en/news-release/2022/12/14/2573636/0/en/Arqit-announces-Technology-Update.html[IMO, this reads as: Arqit argues that its non-quantum symmetric key approach is just as secure as those that use Quantum physical processes, so just use symmetric keys]
+
+
+### FOSS responses
+- Open Quantum Safe (OQS) project
+* OQS is a FOSS project for PQC libraries. It includes experimental forks of some projects like OpenSSL and OpenSSH
+* https://github.com/open-quantum-safe[OQS git repos]
+* https://hub.docker.com/u/openquantumsafe[OQS Docker images]
+- OpenSSH
+* https://portswigger.net/daily-swig/openssh-9-0-bakes-in-post-quantum-cryptography-to-future-proof-against-attacks[Added an anticipated algorithm early, similar to, but not the same as what NIST-approved]
+* https://hub.docker.com/r/openquantumsafe/openssh[Open Quantum Safe (OKS) experimental project, PQC SSH server in Docker, has NIST-approved algorithms]
+- OpenSSL
+* https://github.com/open-quantum-safe/oqs-provider[OQS code for SSL]
+- Qiskit
+* FOSS language, promoted by IBM, for running code on post-quantum computers (and for simulating them for development today)
+* https://qiskit.org/[Qiskit project]
+** https://aws.amazon.com/blogs/quantum-computing/introducing-the-qiskit-provider-for-amazon-braket/AWS support for Qiskit
+** 
+
+
+### Hyperscalar responses
+- General Responses
+* https://www.darkreading.com/dr-tech/amazon-ibm-move-swiftly-on-post-quantum-cryptographic-algorithms-selected-by-nist[Fast responses from AWS and IBM. Google has been working on its own hybrid (ALTS) for years]
+* Kyber, as of 3/23/23 is already included by https://pq-crystals.org/kyber/[IBM, Google CloudFlare, and Amazon AWS]
+- Google GCP
+* https://cloud.google.com/blog/products/identity-security/why-google-now-uses-post-quantum-cryptography-for-internal-comms[Google prepares for PQC]
+* https://cloud.google.com/docs/security/encryption-in-transit/application-layer-transport-security[ALTS - Google's internal secure transport mechanism]
+* https://blog.cloudflare.com/nist-post-quantum-surprise/[Cloudflare (owned by Google) has a good discussion of NIST PQC algorithms, with tests and links to code]
+- Microsoft Azure
+* https://www.microsoft.com/en-us/research/project/post-quantum-tls/[MS will leverage OQS/OpenSSL efforts]
+* https://www.microsoft.com/en-us/research/project/post-quantum-cryptography/[MS links to forks of PQC open projects]
+** Note: This mentions SIDH which has been deemed not safe (as-is anyway) by NIST, but is useful for academic reasons as it might be made safe in future...
+*** https://www.quantamagazine.org/post-quantum-cryptography-scheme-is-cracked-on-a-laptop-20220824/[SIDH cracked]
+*** https://thehackernews.com/2022/08/single-core-cpu-cracked-post-quantum.html[Claim that SIDH might be patched to become secure]
+* Azure has some support for TLS 1.3
+** https://learn.microsoft.com/en-us/azure/application-gateway/application-gateway-ssl-policy-overview#limitations[With some limitations - back-end uses non-PQC]
+- Amazon AWS
+* Good summary of the state of PQC standards is https://aws.amazon.com/security/post-quantum-cryptography/[here]
+* "Begin using hybrid key agreement today with AWS KMS, Secrets Manager and ACM"
+* https://aws.amazon.com/blogs/security/how-to-tune-tls-for-hybrid-post-quantum-cryptography-with-kyber/[AWS guidance for tuning TLS for PQC]
+** https://aws.amazon.com/blogs/security/round-2-post-quantum-tls-is-now-supported-in-aws-kms/[AWS added support for PQ TLS w/Kiber early (in round-2)]
+** https://github.com/aws-samples/aws-kms-pq-tls-example[Java Code and useful README on PQ TLS]
+* https://aws.amazon.com/blogs/security/enable-post-quantum-key-exchange-in-quic-with-the-s2n-quic-library/[AWS support for PQC in Key Exchange]
+** https://www.rfc-editor.org/rfc/rfc9000.html[QUIC protocol, used in HTTP3]
+* https://s3.amazonaws.com/files.douglas.stebila.ca/files/research/presentations/20220627-ESA.pdf[AWS presentation on PQC]
+* https://aws.amazon.com/about-aws/whats-new/2023/03/application-load-balancer-tls-1-3/[AWS Supports TLS 1.3 on all Application Load Balancers]
+
+
+## Note Adding PQC to TLSv1.3 is not trivial
+- https://blog.cloudflare.com/kemtls-post-quantum-tls-without-signatures/[Cloudflare discussing removing pre-QC from TLS (handshake where RSA is used by default)]
+- 
+
+## What to do?
+- Add PQC algos to TLS (and only use TLS v1.3)
+* https://datatracker.ietf.org/doc/draft-ietf-tls-hybrid-design/[standards doc for TLSv1.3 with PQC/Kyber]
+- https://www2.deloitte.com/us/en/pages/risk/solutions/quantum-cyber-readiness.html?id=us:2ps:3gl:cyber22:eng:adv:090622:k0167620&gclid=Cj0KCQjw8e-gBhD0ARIsAJiDsaVB7ZeHogIIrVIzmAxVnEy7oKeZUrhfIFYlmUWNMEz94RG6O1ufCOkaAizrEALw_wcB[Good high-level discussion]
+- Risk Assessment
+- Regulations - identify which ones apply, what they are, and what they will be (given changing algos for example)
+- Enable Agility - e.g. to transition to PQC PKI (evaluate HSMs and KMSs), stronger symmetric keys if needed, etc
+
