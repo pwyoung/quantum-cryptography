@@ -11,11 +11,12 @@
 ** This is possible with 3 lenses, each at 45 degrees, each reducing the emitted light by 50%
 
 ## Theory as it relates to Quantum Key Distribution (QKD)
+- The light polarization can be used to send secret messages using algorithms like https://en.wikipedia.org/wiki/BB84[BB84]
 - The utility of QKD, by itself (as opposed to PQC),has been https://en.wikipedia.org/wiki/Quantum_key_distribution#:~:text=Quantum%20key%20distribution%20requires%20special,physically%20manage%20free%2Dspace%20transmitters[challenged]
 * The challenges above are summarized here:
-** The authentication problem (who are you talking to) is not solved. 
+** The authentication problem (who are you talking to) is not solved.
 *** You might be talking to an adversary.
-** Denial of service ("DOS") attacks are possible. 
+** Denial of service ("DOS") attacks are possible.
 *** If an eaves-dropper listens to all transmissions, then none can be used to communicate the key.
 ** Special dedicated equipment is needed
 *** E.g. fiber connections or p2p transmitters
@@ -65,8 +66,8 @@
 - Use longer key-length RSA keys (2048 minimum, but 3072 and 4096 bit versions, while slower, are supported)
 
 ### Check current encryption
-- You are probably (implicitly or otherwise) using AES-256 symmetric key encryption for enrypting data at rest. 
-- The key used to encrypt data is the "Data Encryption Key (DEK)". 
+- You are probably (implicitly or otherwise) using AES-256 symmetric key encryption for enrypting data at rest.
+- The key used to encrypt data is the "Data Encryption Key (DEK)".
 - The DEK is usually stored alongside the data, encrypted with a "Key-Encrypting-Key (KEK)" which is usually uses PKI (asymmetric keys)
 - At any time, there are often two (or more) KEKs, so to support "key rotation", so that old keys can be retired and replaced by new keys, without interrupting service or decrypting/re-encrypting data
 - Make sure you trust your system to not have security flaws (such skeleton KEKs) that would allow admins to read your data. This ultimately depends on audits of the code and (encrypted) data storage system.
@@ -80,7 +81,7 @@
 
 ### Use Elliptic-Curve Cryptography
 - For speed, when possible, and when you trust that the (newer more complex) code implementation is secure, use Elliptical Curve Cryptography (ECC)
-* Note that not everyone supports ECC as RSA is older, more reviewed, and more popular 
+* Note that not everyone supports ECC as RSA is older, more reviewed, and more popular
 * ECDSA with a 256 bit key is believed to be equivalent to RSA with a 3072-bit key https://www.rfc-editor.org/rfc/rfc6605[per this RFC]
 - Examples of support for Elliptic Curve Cryptography
 * FIPS-compliant keychain setup on a https://www.cisco.com/c/en/us/td/docs/iosxr/ncs5500/security/66x/b-system-security-cg-ncs5500-66x/m-configuring-fips-mode-ncs5500.pdf[Cisco router]
@@ -91,7 +92,7 @@
 - NIST is not the only word in PQC
 * OpenSSL/OpenSSH adopted some algorithms which may be quantum resistant before NIST finalized its algorithms, and are not on the current NIST-approved PQC list of algorithms.
 
-- Algorithm development (code libraries, attacks on algorithms, exploration of new algorithms and variations on them) continues 
+- Algorithm development (code libraries, attacks on algorithms, exploration of new algorithms and variations on them) continues
 * 3 of the 4 Quantum algorithms NIST https://csrc.nist.gov/Projects/post-quantum-cryptography/selected-algorithms-2022[approved] depend on https://en.wikipedia.org/wiki/NTRU[NTRU (Lattice-math)]
 ** https://sphincs.org/[Sphincs+] is the exception, added in case we need another algorithm, but it is for hashing, not for PKI.
 ** So, the https://en.wikipedia.org/wiki/Key_encapsulation_mechanism[KEMs, e.g. Kyber] depend on NTRU/Lattice math.
@@ -103,18 +104,18 @@
 - PQC algorithms can be slower than RSA/ECDSA and so people are working on speeding them up.
 * See a discussion on that https://crypto.stackexchange.com/questions/99566/are-pki-pqc-algorithms-slower-than-their-nonpq-counterparts-e-g-ntru-vs-rsa[here]
 * Tools to benchmark crypto algorithms exist, such as https://bench.cr.yp.to/supercop.html[this]
-- Google has a public timeline for developing a stable Quantum Computer 
+- Google has a public timeline for developing a stable Quantum Computer
 * It expects the computer to be available by 2029
 * When it will come about, and whether it will have enough qubits to crack certain keys is another question.
 
 
 ## Regulations
-- DHS 
+- DHS
 * Expects transition to PQC to happen as soon as standards are https://www.dhs.gov/publication/preparing-post-quantum-cryptography-infographic[published in 2024]
-* Encourages those working on critical infrastructure to immediately "shift mindset" (planning at a minimum) for PQC 
-- Congress 
+* Encourages those working on critical infrastructure to immediately "shift mindset" (planning at a minimum) for PQC
+- Congress
 * Has made some laws requiring the fed to make detailed plans to move to PQC https://www.congress.gov/bill/117th-congress/house-bill/7535/text[by a vote of 420-3]
-- The federal budget 
+- The federal budget
 * https://www.nextgov.com/policy/2022/03/biden-budget-request-boosts-it-spending-significantly/363670/[allocates $187M] to finalize the PQC standards, with additional money included to actually make the changes needed.
 - GDPR
 * Requires https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A02016R0679-20160504["appropriate technical and organizational measures”]
@@ -124,5 +125,3 @@
 - NSA
 * Has the most detailed guidance and timelines https://media.defense.gov/2022/Sep/07/2003071836/-1/-1/0/CSI_CNSA_2.0_FAQ_.PDF[here]
 ** This shows the transition to PQC (CNSA 2.0) should be complete by 2030 with transition starting in 2025.
-
-
