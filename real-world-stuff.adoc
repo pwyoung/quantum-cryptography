@@ -12,7 +12,7 @@
 
 ## Theory as it relates to Quantum Key Distribution (QKD)
 - The light polarization can be used to send secret messages using algorithms like https://en.wikipedia.org/wiki/BB84[BB84]
-- The utility of QKD, by itself (as opposed to PQC),has been https://en.wikipedia.org/wiki/Quantum_key_distribution#:~:text=Quantum%20key%20distribution%20requires%20special,physically%20manage%20free%2Dspace%20transmitters[challenged]
+- BUT, the utility of QKD, by itself (as opposed to PQC),has been https://en.wikipedia.org/wiki/Quantum_key_distribution#:~:text=Quantum%20key%20distribution%20requires%20special,physically%20manage%20free%2Dspace%20transmitters[challenged]
 * The challenges above are summarized here:
 ** The authentication problem (who are you talking to) is not solved.
 *** You might be talking to an adversary.
