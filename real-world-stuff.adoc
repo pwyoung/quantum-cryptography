@@ -76,7 +76,7 @@
 - Look at isolating systems that don't need to be connected and implementing https://csrc.nist.gov/publications/detail/sp/800-207/final[Zero Trust] since https://www.bleepingcomputer.com/news/security/kroger-data-breach-exposes-pharmacy-and-employee-data/[mundane, non-quantum attacks] will continue to threaten organizations.
 
 ### Protect DNS
-- DNS is critical and its comprimise can help compromise other systems
+- DNS is critical and its compromise can help compromise other systems
 - Make sure your DNS is also secured using encryption (DNSSEC) and be prepared to upgrade it too at some point.
 
 ### Use Elliptic-Curve Cryptography
