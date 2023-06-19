@@ -14,3 +14,6 @@
 - link:algo-graveyard.adoc[algo-graveyard]
 - link:regulation-federal-fips.adoc[regulation-federal-fips]
 - link:fips-modules[fips-modules]
+
+## In the news
+These notes were made in preparation for an interview https://www.quantumbusinessnews.com/applications/cybersecurity-in-a-post-quantum-world[here]
