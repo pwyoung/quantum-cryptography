@@ -8,7 +8,7 @@
 ** A polarizer always emits light at a fixed polarization angle
 ** If light comes in at 45 degrees to the polarization angle then 50% of the light will be emitted
 ** The light is essentially "rotated" to the new polarization angle
-** This is possible with 3 lenses, each at 45 degrees, each reducing the emitted light by 50%
+** This is possible with 3 lenses, each at 45 degrees, each reducing the emitted light (39%,50%,50%, according to https://en.wikipedia.org/wiki/Polarizer#Malus's_law_and_other_properties[Malus's Law])
 
 ## Theory as it relates to Quantum Key Distribution (QKD)
 - The light polarization can be used to send secret messages using algorithms like https://en.wikipedia.org/wiki/BB84[BB84]
